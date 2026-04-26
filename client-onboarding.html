@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cox Intelligence — Welcome</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:  #0c0c0c;
+  --white:  #ffffff;
+  --off:    #fafaf8;
+  --cream:  #f4f3ef;
+  --border: #e2e1dc;
+  --mid:    #9a9994;
+  --muted:  #6e6d69;
+  --text:   #1c1c1a;
+  --serif:  'Cormorant Garamond', Georgia, serif;
+  --sans:   'Jost', system-ui, sans-serif;
+  --err:    #c0392b;
+  --ok:     #2d6a4f;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--off);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--black);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+.brand {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--white);
+  letter-spacing: 0.04em;
+}
+.brand-tag {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── PROGRESS ── */
+.progress-bar {
+  height: 2px;
+  background: var(--border);
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--black);
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  width: 25%;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--black);
+  padding: 64px 40px 56px;
+  text-align: center;
+}
+.hero-step {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  margin-bottom: 14px;
+}
+.hero-sub {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.45);
+  max-width: 420px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* ── FORM WRAPPER ── */
+.form-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 56px 40px 80px;
+}
+
+/* ── PAGES ── */
+.page { display: none; }
+.page.active {
+  display: block;
+  animation: rise 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SECTION ── */
+.section { margin-bottom: 40px; }
+.section-rule {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.section-rule-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.section-rule-text {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mid);
+  white-space: nowrap;
+}
+
+/* ── FIELDS ── */
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.field { margin-bottom: 24px; }
+.field:last-child { margin-bottom: 0; }
+
+.field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.field .hint {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--muted);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+.field .err-msg {
+  font-size: 11px;
+  color: var(--err);
+  margin-top: 5px;
+  display: none;
+}
+.field.has-error input,
+.field.has-error select,
+.field.has-error textarea {
+  border-color: var(--err);
+}
+.field.has-error .err-msg { display: block; }
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="time"],
+select,
+textarea {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.18s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--black); }
+textarea { resize: vertical; min-height: 80px; line-height: 1.7; }
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239a9994'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* ── DAY TOGGLES ── */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.day-btn {
+  padding: 10px 4px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+  user-select: none;
+}
+.day-btn:hover { border-color: #bbb; color: var(--text); }
+.day-btn.on {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+
+/* ── CHOICE CARDS ── */
+.choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.choice-card {
+  border: 1px solid var(--border);
+  background: var(--white);
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.choice-card:hover { border-color: #bbb; }
+.choice-card.on { border-color: var(--black); background: var(--black); }
+.choice-card .ct { font-size: 13px; font-weight: 400; color: var(--text); margin-bottom: 4px; }
+.choice-card .cd { font-size: 11px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+.choice-card.on .ct { color: var(--white); }
+.choice-card.on .cd { color: rgba(255,255,255,0.4); }
+
+/* ── REASSURANCE BOX ── */
+.reassure {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+  margin-bottom: 32px;
+}
+.reassure p {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.reassure strong { font-weight: 500; color: var(--text); }
+
+/* ── NAV ── */
+.nav-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  align-items: center;
+}
+.btn {
+  padding: 14px 28px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  transition: all 0.18s;
+}
+.btn-primary { background: var(--black); color: var(--white); flex: 1; }
+.btn-primary:hover { background: #2a2a2a; }
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.btn-ghost:hover { border-color: #aaa; color: var(--text); }
+
+/* ── STEP DOTS ── */
+.step-dots {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.sdot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.2s;
+}
+.sdot.on { background: var(--black); width: 16px; border-radius: 3px; }
+.sdot.done { background: var(--mid); }
+
+/* ── THANK YOU PAGE ── */
+.thankyou {
+  text-align: center;
+  padding: 20px 0 60px;
+}
+.ty-icon {
+  width: 64px; height: 64px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 28px;
+  font-size: 24px;
+}
+.ty-h {
+  font-family: var(--serif);
+  font-size: 38px;
+  font-weight: 400;
+  margin-bottom: 14px;
+  letter-spacing: 0.01em;
+}
+.ty-sub {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 380px;
+  margin: 0 auto 36px;
+  line-height: 1.8;
+}
+.ty-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 24px 28px;
+  text-align: left;
+  margin-bottom: 12px;
+}
+.ty-card-label {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 14px;
+}
+.ty-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  font-size: 13px;
+}
+.ty-row:last-child { border-bottom: none; }
+.ty-k { color: var(--muted); font-weight: 300; flex-shrink: 0; }
+.ty-v { color: var(--text); font-weight: 400; text-align: right; word-break: break-word; }
+
+.ty-note {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--mid);
+  text-align: center;
+  margin-top: 20px;
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .topbar { padding: 0 20px; }
+  .hero { padding: 44px 20px 40px; }
+  .form-wrap { padding: 40px 20px 60px; }
+  .row2, .choice-grid { grid-template-columns: 1fr; }
+  .day-grid { grid-template-columns: repeat(4, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">Cox Intelligence</div>
+  <div class="brand-tag">Client Setup</div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- HERO -->
+<div class="hero" id="heroBlock">
+  <div class="hero-step" id="heroStep">Step 1 of 4</div>
+  <h1 id="heroTitle">Welcome aboard.</h1>
+  <p class="hero-sub" id="heroSub">This form takes about 3 minutes. We just need a few details to get your automation up and running.</p>
+</div>
+
+<div class="form-wrap">
+
+  <!-- PAGE 1: About your business -->
+  <div class="page active" id="pg0">
+
+    <div class="reassure">
+      <p><strong>Simple and secure.</strong> We only ask for what's needed to set up your automation. No payment details, no account access required. Your information is used solely to configure your Cox Intelligence system.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-rule">
+        <div class="section-rule-line"></div>
+        <div class="section-rule-text">Your business</div>
+        <div class="section-rule-line"></div>
+      </div>
+
+      <div class="row2">
+        <div class="field" id="f-biz_name">
+          <label>Business name *</label>
+          <input type="text" id="biz_name" placeholder="e.g. Smith Dental" oninput="sync()">
+          <div class="err-msg">Please enter your business name</div>
+        </div>
+        <div class="field" id="f-industry">
+          <label>Industry *</label>
+          <select id="industry" onchange="sync()">
+            <option value="">Select your industry...</option>
+            <option>Dental</option>
+            <option>Legal</option>
+            <option>Financial services</option>
+            <option>Real estate</option>
+            <option>Allied health</option>
+            <option>Trades / construction</option>
+            <option>Retail</option>
+            <option>Hospitality</option>
+            <option>Other</option>
+          </select>
+          <div class="err-msg">Please select your industry</div>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="field" id="f-city">
+          <label>City / suburb *</label>
+          <input type="text" id="city" placeholder="e.g. Newcastle NSW" oninput="sync()">
+          <div class="err-msg">Please enter your location</div>
+        </div>
+        <div class="field">
+          <label>Website <span style="font-weight:300;text-transform:none;font-size:10px;">(optional)</span></label>
+          <input type="text" id="website" placeholder="e.g. smithdental.com.au" oninput="sync()">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-rule">
+        <div class="section-rule-line"></div>
+        <div class="section-rule-text">Your contact details</div>
+        <div class="section-rule-line"></div>
+      </div>
+
+      <div class="row2">
+        <div class="field" id="f-owner_name">
+          <label>Your full name *</label>
+          <input type="text" id="owner_name" placeholder="e.g. James Smith" oninput="sync()">
+          <div class="err-msg">Please enter your name</div>
+        </div>
+        <div class="field">
+          <label>Your role</label>
+          <input type="text" id="owner_role" placeholder="e.g. Owner, Practice Manager" oninput="sync()">
+        </div>
+      </div>
+
+      <div class="field" id="f-biz_email">
+        <label>Your email address *</label>
+        <div class="hint">We'll send your setup confirmation and dashboard link here.</div>
+        <input type="email" id="biz_email" placeholder="james@smithdental.com.au" oninput="sync()">
+        <div class="err-msg">Please enter a valid email address</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <div class="step-dots">
+        <div class="sdot on"></div><div class="sdot"></div><div class="sdot"></div><div class="sdot"></div>
+      </div>
+      <button class="btn btn-primary" onclick="next(0)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2: Phone & hours -->
+  <div class="page" id="pg1">
+
+    <div class="reassure">
+      <p><strong>Why do we need your phone number?</strong> Your business phone is the number your customers already call. Our system monitors it and responds automatically to missed calls — you keep your existing number, nothing changes for your customers.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-rule">
+        <div class="section-rule-line"></div>
+        <div class="section-rule-text">Your business phone</div>
+        <div class="section-rule-line"></div>
+      </div>
+
+      <div class="field" id="f-biz_phone">
+        <label>Business phone number *</label>
+        <div class="hint">The main number your customers call. This is the line our automation monitors.</div>
+        <input type="tel" id="biz_phone" placeholder="e.g. 02 4000 1234" oninput="sync()">
+        <div class="err-msg">Please enter your business phone number</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-rule">
+        <div class="section-rule-line"></div>
+        <div class="section-rule-text">Your trading hours</div>
+        <div class="section-rule-line"></div>
+      </div>
+
+      <div class="hint" style="margin-bottom:20px;">We use your trading hours to make sure automated messages are only sent during appropriate times — never outside business hours or on your days off.</div>
+
+      <div class="row2" style="margin-bottom:24px;">
+        <div class="field">
+          <label>Opening time</label>
+          <input type="time" id="open_time" value="09:00" onchange="sync()">
+        </div>
+        <div class="field">
+          <label>Closing time</label>
+          <input type="time" id="close_time" value="17:00" onchange="sync()">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Days you trade</label>
+        <div class="hint" style="margin-bottom:12px;">Tap the days your business is open.</div>
+        <div class="day-grid">
+          <div class="day-btn on" data-val="Monday" onclick="toggleDay(this)">Mon</div>
+          <div class="day-btn on" data-val="Tuesday" onclick="toggleDay(this)">Tue</div>
+          <div class="day-btn on" data-val="Wednesday" onclick="toggleDay(this)">Wed</div>
+          <div class="day-btn on" data-val="Thursday" onclick="toggleDay(this)">Thu</div>
+          <div class="day-btn on" data-val="Friday" onclick="toggleDay(this)">Fri</div>
+          <div class="day-btn" data-val="Saturday" onclick="toggleDay(this)">Sat</div>
+          <div class="day-btn" data-val="Sunday" onclick="toggleDay(this)">Sun</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="prev(1)">← Back</button>
+      <div class="step-dots">
+        <div class="sdot done"></div><div class="sdot on"></div><div class="sdot"></div><div class="sdot"></div>
+      </div>
+      <button class="btn btn-primary" onclick="next(1)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 3: Messaging preferences -->
+  <div class="page" id="pg2">
+
+    <div class="section">
+      <div class="section-rule">
+        <div class="section-rule-line"></div>
+        <div class="section-rule-text">How should we sound?</div>
+        <div class="section-rule-line"></div>
+      </div>
+
+      <div class="hint" style="margin-bottom:20px;">Our AI will message your customers on your behalf. Choose the tone that best matches how your business communicates.</div>
+
+      <div class="choice-grid" style="margin-bottom:0;">
+        <div class="choice-card on" data-val="Professional and friendly" onclick="setTone(this)">
+          <div class="ct">Professional &amp; friendly</div>
+          <div class="cd">"Hi James, just following up on your enquiry with us…"</div>
+        </div>
+        <div class="choice-card" data-val="Casual and warm" onclick="setTone(this)">
+          <div class="ct">Casual &amp; warm</div>
+          <div class="cd">"Hey! We got your message and wanted to reach out…"</div>
+        </div>
+        <div class="choice-card" data-val="Formal" onclick="setTone(this)">
+          <div class="ct">Formal</div>
+          <div class="cd">"Dear Mr Smith, we acknowledge your recent enquiry…"</div>
+        </div>
+        <div class="choice-card" data-val="Concise and direct" onclick="setTone(this)">
+          <div class="ct">Concise &amp; direct</div>
+          <div class="cd">"Got your call. Free to chat? Reply YES."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-rule">
+        <div class="section-rule-line"></div>
+        <div class="section-rule-text">Message sign-off</div>
+        <div class="section-rule-line"></div>
+      </div>
+
+      <div class="field" id="f-signoff">
+        <label>How should messages sign off? *</label>
+        <div class="hint">This appears at the end of every automated text message sent to your customers.</div>
+        <input type="text" id="signoff" placeholder="e.g. The Smith Dental Team" oninput="sync()">
+        <div class="err-msg">Please enter a sign-off name</div>
+      </div>
+
+      <div class="field">
+        <label>Your key services <span style="font-weight:300;text-transform:none;font-size:10px;">(optional)</span></label>
+        <div class="hint">List your main services separated by commas. Helps the AI personalise messages with relevant context.</div>
+        <textarea id="keywords" placeholder="e.g. teeth whitening, checkups, Invisalign, emergency appointments" oninput="sync()"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Anything we should never mention? <span style="font-weight:300;text-transform:none;font-size:10px;">(optional)</span></label>
+        <div class="hint">Competitors, pricing, or services you don't offer. Leave blank if not applicable.</div>
+        <textarea id="exclusions" placeholder="e.g. Please don't mention pricing or refer to other practices." oninput="sync()" style="min-height:60px;"></textarea>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="prev(2)">← Back</button>
+      <div class="step-dots">
+        <div class="sdot done"></div><div class="sdot done"></div><div class="sdot on"></div><div class="sdot"></div>
+      </div>
+      <button class="btn btn-primary" onclick="next(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 4: Dashboard access -->
+  <div class="page" id="pg3">
+
+    <div class="section">
+      <div class="section-rule">
+        <div class="section-rule-line"></div>
+        <div class="section-rule-text">Your live dashboard</div>
+        <div class="section-rule-line"></div>
+      </div>
+
+      <div class="reassure">
+        <p><strong>What is the dashboard?</strong> Once your system is live, you'll have access to a Google Sheet that shows every lead, missed call, follow-up, and booking in real time. You can view it any time from any device. We just need a Gmail address to share it with you.</p>
+      </div>
+
+      <div class="field" id="f-sheets_email">
+        <label>Gmail address for dashboard access *</label>
+        <div class="hint">Must be a Gmail account (e.g. @gmail.com). This is how Google Sheets sharing works — we don't need your password or any account access, just the email address.</div>
+        <input type="email" id="sheets_email" placeholder="youremail@gmail.com" oninput="sync()">
+        <div class="err-msg">Please enter a valid Gmail address</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-rule">
+        <div class="section-rule-line"></div>
+        <div class="section-rule-text">Review your details</div>
+        <div class="section-rule-line"></div>
+      </div>
+      <div id="reviewBlock"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="prev(3)">← Back</button>
+      <div class="step-dots">
+        <div class="sdot done"></div><div class="sdot done"></div><div class="sdot done"></div><div class="sdot on"></div>
+      </div>
+      <button class="btn btn-primary" onclick="submit()">Submit →</button>
+    </div>
+  </div>
+
+  <!-- THANK YOU -->
+  <div class="page" id="pg4">
+    <div class="thankyou">
+      <div class="ty-icon">✓</div>
+      <div class="ty-h">You're all set.</div>
+      <p class="ty-sub">Thank you for completing your onboarding. Lewis from Cox Intelligence will be in touch within 24 hours to confirm your system is live.</p>
+
+      <div class="ty-card">
+        <div class="ty-card-label">What happens next</div>
+        <div class="ty-row"><span class="ty-k">Within 24 hours</span><span class="ty-v">Lewis sets up your workflows and Google Sheet dashboard</span></div>
+        <div class="ty-row"><span class="ty-k">Dashboard</span><span class="ty-v">Shared to your Gmail — you'll receive a Google Sheets notification</span></div>
+        <div class="ty-row"><span class="ty-k">Go live</span><span class="ty-v">Lewis runs a test to confirm everything is working end-to-end</span></div>
+        <div class="ty-row"><span class="ty-k">Questions?</span><span class="ty-v">Reach out to Lewis directly via the contact details provided</span></div>
+      </div>
+
+      <div class="ty-card" id="summaryCard"></div>
+
+      <p class="ty-note">Cox Intelligence · Sydney &amp; Newcastle, NSW<br>Automation built on n8n · GPT-4o · Twilio</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const DAY_ORDER = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+const S = {
+  biz_name:'', industry:'', city:'', website:'',
+  owner_name:'', owner_role:'', biz_email:'',
+  biz_phone:'',
+  open_time:'09:00', close_time:'17:00',
+  days:['Monday','Tuesday','Wednesday','Thursday','Friday'],
+  tone:'Professional and friendly',
+  signoff:'', keywords:'', exclusions:'',
+  sheets_email:''
+};
+
+const HEROES = [
+  { step:'Step 1 of 4', title:'Welcome aboard.', sub:'This form takes about 3 minutes. We just need a few details to get your automation up and running.' },
+  { step:'Step 2 of 4', title:'Your phone & hours.', sub:'We need to know when you\'re open so automated messages are only sent at appropriate times.' },
+  { step:'Step 3 of 4', title:'Your message style.', sub:'Tell us how you\'d like to communicate with your customers. The AI will match your tone exactly.' },
+  { step:'Step 4 of 4', title:'Almost done.', sub:'One last step — we need a Gmail address to share your live dashboard with you.' },
+];
+
+const PROGRESS = ['25%','50%','75%','100%'];
+
+function sync() {
+  ['biz_name','industry','city','website','owner_name','owner_role',
+   'biz_email','biz_phone','open_time','close_time','signoff','keywords',
+   'exclusions','sheets_email'].forEach(k => {
+    const el = document.getElementById(k);
+    if (el) S[k] = el.value;
+  });
+}
+
+function toggleDay(el) {
+  el.classList.toggle('on');
+  const v = el.dataset.val;
+  if (el.classList.contains('on')) { if (!S.days.includes(v)) S.days.push(v); }
+  else { S.days = S.days.filter(d => d !== v); }
+  S.days.sort((a,b) => DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b));
+}
+
+function setTone(el) {
+  document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  S.tone = el.dataset.val;
+}
+
+function updateHero(n) {
+  const h = HEROES[n] || HEROES[3];
+  document.getElementById('heroStep').textContent = h.step;
+  document.getElementById('heroTitle').textContent = h.title;
+  document.getElementById('heroSub').textContent = h.sub;
+  document.getElementById('progressFill').style.width = PROGRESS[n] || '100%';
+}
+
+function validate(n) {
+  let ok = true;
+  const checks = {
+    0: [
+      { id:'biz_name',    fid:'f-biz_name',   check: v => v.trim().length > 0 },
+      { id:'industry',    fid:'f-industry',    check: v => v.trim().length > 0 },
+      { id:'city',        fid:'f-city',        check: v => v.trim().length > 0 },
+      { id:'owner_name',  fid:'f-owner_name',  check: v => v.trim().length > 0 },
+      { id:'biz_email',   fid:'f-biz_email',   check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+    ],
+    1: [
+      { id:'biz_phone',   fid:'f-biz_phone',   check: v => v.trim().length > 5 },
+    ],
+    2: [
+      { id:'signoff',     fid:'f-signoff',     check: v => v.trim().length > 0 },
+    ],
+    3: [
+      { id:'sheets_email',fid:'f-sheets_email',check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+    ],
+  };
+  (checks[n] || []).forEach(({ id, fid, check }) => {
+    const val = document.getElementById(id)?.value || '';
+    const field = document.getElementById(fid);
+    if (field) {
+      if (!check(val)) { field.classList.add('has-error'); ok = false; }
+      else { field.classList.remove('has-error'); }
+    }
+  });
+  return ok;
+}
+
+function next(n) {
+  sync();
+  if (!validate(n)) return;
+  if (n === 3) { submit(); return; }
+  showPage(n + 1);
+}
+
+function prev(n) {
+  showPage(n - 1);
+}
+
+function showPage(n) {
+  document.querySelectorAll('.page').forEach((p,i) => p.classList.toggle('active', i === n));
+  updateHero(n);
+  if (n === 3) buildReview();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function buildReview() {
+  sync();
+  const rows = [
+    ['Business', S.biz_name || '—'],
+    ['Industry', S.industry || '—'],
+    ['City', S.city || '—'],
+    ['Contact', S.owner_name || '—'],
+    ['Email', S.biz_email || '—'],
+    ['Phone', S.biz_phone || '—'],
+    ['Hours', (S.open_time||'09:00') + ' – ' + (S.close_time||'17:00')],
+    ['Trading days', S.days.join(', ') || 'None selected'],
+    ['Tone', S.tone],
+    ['Sign-off', S.signoff || '—'],
+    ['Dashboard Gmail', S.sheets_email || '—'],
+  ];
+  document.getElementById('reviewBlock').innerHTML = `
+    <div class="ty-card" style="margin-bottom:0;">
+      <div class="ty-card-label">Please confirm your details before submitting</div>
+      ${rows.map(([k,v]) => `<div class="ty-row"><span class="ty-k">${k}</span><span class="ty-v">${v}</span></div>`).join('')}
+    </div>`;
+}
+
+function submit() {
+  sync();
+  if (!validate(3)) return;
+
+  // Build the summary for Cox Intelligence internal use
+  const now = new Date();
+  const rows = [
+    ['Submitted', now.toLocaleDateString('en-AU') + ' ' + now.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'})],
+    ['Business name', S.biz_name],
+    ['Industry', S.industry],
+    ['City', S.city],
+    ['Website', S.website || 'N/A'],
+    ['Owner', S.owner_name],
+    ['Role', S.owner_role || 'N/A'],
+    ['Business email', S.biz_email],
+    ['Business phone', S.biz_phone],
+    ['Trading hours', (S.open_time||'09:00') + ' – ' + (S.close_time||'17:00') + ' AEST'],
+    ['Trading days', S.days.join(', ')],
+    ['Tone', S.tone],
+    ['Sign-off', S.signoff],
+    ['Keywords', S.keywords || 'None'],
+    ['Exclusions', S.exclusions || 'None'],
+    ['Dashboard Gmail', S.sheets_email],
+  ];
+
+  document.getElementById('summaryCard').innerHTML = `
+    <div class="ty-card-label">Your submitted details</div>
+    ${rows.map(([k,v]) => `<div class="ty-row"><span class="ty-k">${k}</span><span class="ty-v">${v}</span></div>`).join('')}`;
+
+  // Show thank you
+  document.querySelectorAll('.page').forEach((p,i) => p.classList.toggle('active', i === 4));
+  document.getElementById('heroStep').textContent = 'Complete';
+  document.getElementById('heroTitle').textContent = 'You\'re all set.';
+  document.getElementById('heroSub').textContent = 'Your details have been submitted. Lewis will be in touch within 24 hours.';
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
